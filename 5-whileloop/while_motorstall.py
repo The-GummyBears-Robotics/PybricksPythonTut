@@ -7,7 +7,16 @@ hub = PrimeHub()
 
 motor = Motor(Port.A)
 
-# Run motor until it hits something (stalls)
+# Detecting a stall using a `while` loop.
+#
+# A stall happens when the motor is trying to move but can't (hits an end stop).
+# There are different ways to detect a stall; this file uses:
+# - `motor.speed() == 0` (it has stopped moving)
+# - `motor.control.done()` (the controller thinks the command is finished)
+#
+# Try it safely: keep the speed low so you don't damage a mechanism.
+
+# Run motor until it hits something (stalls).
 motor.run(300)
 hub.display.icon(Icon.ARROW_RIGHT)
 

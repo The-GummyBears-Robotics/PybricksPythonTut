@@ -22,9 +22,19 @@ Pybricks Python tutorial repo for LEGO SPIKE Prime robots, written for kids and 
 
 ## How to run a file
 
-1. Open **Pybricks Code**
-2. Connect your hub
-3. Open any `.py` file in this repo and run it on the hub
+Follow the official Pybricks “Getting Started” steps for setup/firmware and the programming environment:
+
+- **Install Pybricks (one-time setup)**: follow [Installing Pybricks](https://pybricks.com/learn/getting-started/install-pybricks).
+- **Learn the editor (Pybricks Code)**: see [Creating and running Pybricks programs](https://pybricks.com/learn/getting-started/pybricks-environment).
+
+Then, for this repo:
+
+1. Open [Pybricks Code](https://code.pybricks.com/)
+2. Connect to your hub (Bluetooth; first-time firmware install may require USB depending on your hub/computer)
+3. Open any `.py` file from this repo (copy/paste or upload into Pybricks Code)
+4. Press **Run** to start the program (and **Stop** to stop it)
+
+If a program uses `print(...)`, look at the **output/console** area in Pybricks Code.
 
 ## Notes
 

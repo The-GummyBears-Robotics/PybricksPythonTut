@@ -3,7 +3,14 @@ from pybricks.tools import wait
 
 hub = PrimeHub()
 
-# Read tilt continuously
+# Tilt reading.
+#
+# `hub.imu.tilt()` returns (pitch, roll) in degrees.
+# - pitch: forward/back tilt
+# - roll: left/right tilt
+# Great for balance games or “tilt to control” activities.
+
+# Read tilt continuously.
 while True:
     pitch, roll = hub.imu.tilt()
     

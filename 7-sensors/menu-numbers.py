@@ -7,6 +7,9 @@ hub = PrimeHub()
 # Select a number from 0-9
 number = 0
 
+# Same menu idea as `menu-icons.py`, but with numbers.
+# `% 10` wraps around from 9 -> 0 and 0 -> 9.
+
 hub.display.number(number)
 
 while True:

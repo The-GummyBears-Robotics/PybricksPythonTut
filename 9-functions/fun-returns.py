@@ -7,7 +7,13 @@ hub = PrimeHub()
 sensor = UltrasonicSensor(Port.A)
 
 def get_distance_cm():
-    """Read distance and convert to centimeters"""
+    """Read distance and return centimeters.
+
+    This function demonstrates RETURN values:
+    - read sensor in mm
+    - convert
+    - give the result back to caller
+    """
     distance_mm = sensor.distance()
     distance_cm = distance_mm / 10
     return distance_cm

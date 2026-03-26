@@ -1,5 +1,11 @@
 
-# The play_notes() method plays a sequence of musical notes. 
+# Playing a song with `play_notes()`.
+#
+# `play_notes([...], tempo=...)` takes a list of note strings like:
+#   'E4/4'  -> note E, octave 4, quarter note (1 beat)
+#   'C4/1'  -> whole note (4 beats)
+#
+# If the rhythm feels wrong, change `tempo` (beats per minute).
 
 from pybricks.hubs import PrimeHub
 

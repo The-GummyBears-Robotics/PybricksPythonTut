@@ -1,6 +1,14 @@
 from pybricks.hubs import PrimeHub
 from pybricks.tools import wait
 
+# Individual pixels on the 5×5 display.
+#
+# `hub.display.pixel(row, col, brightness)` turns on ONE dot.
+# - row and col go from 0 to 4
+# - brightness is 0–100 (0 means off)
+#
+# Try it: light up a diagonal line by turning on (0,0), (1,1), (2,2), ...
+
 # Initialize the hub.
 hub = PrimeHub()
 

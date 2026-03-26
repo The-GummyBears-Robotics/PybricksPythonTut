@@ -3,6 +3,11 @@ from pybricks.parameters import Color
 from pybricks.tools import wait
 from umath import sin, pi
 
+# This file is the same idea as `light_animate.py`:
+# using `hub.light.animate()` to cycle through a list of colors.
+#
+# Tip for kids: when two files look similar, compare them to spot what changed.
+
 # Initialize the hub.
 hub = PrimeHub()
 

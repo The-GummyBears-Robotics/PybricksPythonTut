@@ -1,5 +1,14 @@
 
-# The play_notes() method plays a sequence of musical notes. 
+# Twinkle Twinkle Little Star with `play_notes()`.
+#
+# This is a longer list, but it’s still the same idea:
+# - a list of note strings
+# - grouped into phrases with comments
+# - played at a certain tempo
+#
+# Try it:
+# - Change `tempo`
+# - Copy just the first 2 lines of notes to make a shorter “demo version”
 
 from pybricks.hubs import PrimeHub
 

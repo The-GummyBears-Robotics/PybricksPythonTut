@@ -1,4 +1,11 @@
-# Example 1: Basic Straight & Turn
+# Example: Basic straight driving and turning with DriveBase.
+#
+# DriveBase is a helper that uses TWO motors as a “robot”.
+# The two most important numbers are your robot’s geometry (in millimeters):
+# - wheel_diameter: your wheel size
+# - axle_track: distance between the left and right wheels
+#
+# If these are wrong, the robot will overshoot/undershoot distances and turns.
 
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor
@@ -12,11 +19,14 @@ left_motor  = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right_motor = Motor(Port.B)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 
-# Drive forward 500mm (half a meter)
+# Straight distances are in millimeters.
+# Positive = forward, negative = backward.
 robot.straight(500)
 wait(300)
 
-# Turn right 90 degrees
+# Turns are in degrees.
+# Positive/negative depends on motor directions, but in this file:
+# positive = right, negative = left (see the last turn).
 robot.turn(90)
 wait(300)
 

@@ -1,4 +1,9 @@
-# Example 3: Run for a Set Time
+# Example: Run for a set time with different stopping styles.
+#
+# `run_time(speed, time_ms, then=...)` runs for a time and then stops in a specific way:
+# - Stop.BRAKE: stop quickly (can skid a little on wheels)
+# - Stop.COAST: let it roll to a stop
+# - Stop.HOLD: actively hold position (good for arms/grippers)
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port, Stop

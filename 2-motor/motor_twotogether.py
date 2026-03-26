@@ -1,4 +1,8 @@
-# run two motors together 
+# Run two motors together (like a drivetrain).
+#
+# Drive robots usually have a left motor and a right motor.
+# The `positive_direction=...` setting is a readability trick:
+# we choose directions so that positive speed makes BOTH wheels drive the robot forward.
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port, Direction
@@ -15,7 +19,7 @@ left_motor.run(400)
 right_motor.run(400)
 wait(2000)
 
-# Turn (spin left motor back)
+# Turn in place: one wheel backward, one wheel forward.
 left_motor.run(-300)
 right_motor.run(300)
 wait(800)

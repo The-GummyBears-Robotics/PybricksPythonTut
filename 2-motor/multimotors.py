@@ -1,4 +1,7 @@
-# Initializing multiple motors¶
+# Initializing multiple motors.
+#
+# This example just proves you can control more than one motor in the same program.
+# In later lessons, you'll coordinate motors to drive and move attachments together.
 
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port

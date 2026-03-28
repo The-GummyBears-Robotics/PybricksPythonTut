@@ -9,17 +9,21 @@ color_sensor = ColorSensor(Port.A)
 distance_sensor = UltrasonicSensor(Port.B)
 
 def is_line_detected():
-    """Check if black line is under sensor"""
+    """Return True when reflection is dark enough to count as a black line."""
     reflection = color_sensor.reflection()
     return reflection < 20  # Black threshold
 
 def is_obstacle_close():
-    """Check if obstacle is within 300mm"""
+    """Return True when object is closer than 300 mm."""
     distance = distance_sensor.distance()
     return distance < 300
 
 def check_environment():
-    """Check both sensors and report status"""
+    """Combine smaller checks into one status label.
+
+    This is decomposition: small single-purpose functions feed a higher-level
+    decision function.
+    """
     line = is_line_detected()
     obstacle = is_obstacle_close()
     

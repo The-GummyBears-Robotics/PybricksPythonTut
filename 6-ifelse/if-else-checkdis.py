@@ -6,6 +6,14 @@ from pybricks.tools import wait
 hub = PrimeHub()
 sensor = UltrasonicSensor(Port.A)
 
+# `if / elif / else` picks exactly ONE branch.
+#
+# We use distance thresholds (in mm) to decide what to show:
+# - < 100 mm: too close
+# - 100..299 mm: near
+# - 300+ mm: far
+#
+# Important: the order matters! We check the smallest threshold first.
 while True:
     distance = sensor.distance()
     

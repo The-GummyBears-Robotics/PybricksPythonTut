@@ -5,6 +5,10 @@ hub = PrimeHub()
 
 hub.imu.reset_heading(0)
 
+# Super simple heading split demo.
+#
+# This intentionally splits heading into two halves only.
+# Good first step before building more detailed compass logic.
 while True:
     heading = hub.imu.heading()
 

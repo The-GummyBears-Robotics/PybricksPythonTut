@@ -6,13 +6,19 @@ from pybricks.tools import wait
 hub = PrimeHub()
 sensor = ColorSensor(Port.A)
 
-# Read and display detected colors
+# Color detection basics.
+#
+# `sensor.color()` returns a named color (like RED, BLUE, etc.) when the sensor
+# sees a strong match. Otherwise it may return NONE/unknown depending on lighting.
+# Good results depend on sensor distance and room light.
+
+# Read and display detected colors.
 while True:
     detected = sensor.color()
     
     print("Color:", detected)
     
-    # Match the hub light to detected color
+    # Match the hub light to the detected color.
     if detected == Color.RED:
         hub.light.on(Color.RED)
     elif detected == Color.BLUE:

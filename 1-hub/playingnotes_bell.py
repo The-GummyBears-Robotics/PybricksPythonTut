@@ -1,5 +1,12 @@
 
-# The play_notes() method plays a sequence of musical notes. 
+# Playing a song with `play_notes()`.
+#
+# The comments inside the list label each lyric phrase, so students can
+# connect code → music.
+#
+# Try it:
+# - Lower `tempo` to slow it down (or raise it to speed up).
+# - Change one note and listen for how it sounds “wrong” (debugging by ear!).
 
 from pybricks.hubs import PrimeHub
 

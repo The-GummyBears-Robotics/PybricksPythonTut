@@ -1,6 +1,12 @@
-# The speaker plays beeps of different frequencies and durations. 
-# A typical audible beep is 500 Hz — higher values produce higher
-# tones. Duration is in milliseconds.
+# Beeps are the “hello world” of sound.
+#
+# `beep(frequency=..., duration=...)`:
+# - frequency is in Hertz (Hz). Bigger number = higher pitch.
+# - duration is in milliseconds (ms). Bigger number = longer beep.
+#
+# Try it:
+# - Make a “doorbell”: two beeps with different pitches.
+# - Put beeps in a loop to make an alarm.
 
 from pybricks.hubs import PrimeHub
 from pybricks.tools import wait

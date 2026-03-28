@@ -9,6 +9,10 @@ sensor = ForceSensor(Port.A)
 hub.display.text("FORCE")
 wait(1000)
 
+# Measuring force in Newtons.
+#
+# `sensor.force()` returns a numeric value (N).
+# Thresholds (5 N, 2 N, etc.) are examples; tune them to your attachment/mechanism.
 while True:
     force = sensor.force()  # Force in Newtons (N)
 

@@ -1,5 +1,11 @@
 
-# The play_notes() method plays a sequence of musical notes. 
+# Happy Birthday with `play_notes()`.
+#
+# New symbol in this file: `8.` (a dotted note).
+# - 'G4/8.' means “an eighth note PLUS half of an eighth note”
+#   (so it lasts 1.5× as long as a normal 8th note).
+#
+# Try it: set `tempo` higher to make it more “party speed”.
 
 from pybricks.hubs import PrimeHub
 

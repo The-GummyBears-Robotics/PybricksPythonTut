@@ -6,7 +6,13 @@ from pybricks.tools import wait
 hub = PrimeHub()
 sensor = UltrasonicSensor(Port.A)
 
-# Continuously measure and display distance
+# Distance measurement basics.
+#
+# Ultrasonic sensor returns distance in millimeters.
+# We also show `distance // 10` on the hub display (roughly centimeters).
+# Integer division (`//`) drops decimals.
+
+# Continuously measure and display distance.
 while True:
     distance = sensor.distance()
     

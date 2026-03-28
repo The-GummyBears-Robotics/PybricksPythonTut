@@ -4,7 +4,16 @@ from pybricks.tools import wait
 
 hub = PrimeHub()
 
-# List of mood icons
+# Looping through a list of icons.
+#
+# Just like colors, icons can go in a list too.
+# Each loop step shows one icon and waits so you can see it.
+#
+# Try it:
+# - Add more icons.
+# - Make it faster/slower by changing `wait(800)`.
+
+# List of mood icons.
 moods = [Icon.HAPPY, Icon.SAD, Icon.ANGRY, Icon.SURPRISED, Icon.ASLEEP]
 
 for mood in moods:

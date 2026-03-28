@@ -6,7 +6,13 @@ from pybricks.tools import wait
 hub = PrimeHub()
 sensor = ColorSensor(Port.A)
 
-# Cycle sensor lights through different patterns
+# Color sensor built-in lights demo.
+#
+# This file controls the tiny lights ON the color sensor itself.
+# You can turn all three on together, or control each light separately
+# with a tuple: (left, middle, right), each from 0..100 brightness.
+
+# Cycle sensor lights through different patterns.
 while True:
     # Blink all together
     for _ in range(3):

@@ -10,11 +10,21 @@ left_motor  = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right_motor = Motor(Port.B)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 
-# Drive a curve: radius=200mm, sweep 90 degrees to the right
+# Curved driving.
+#
+# `curve(radius=..., angle=...)` drives an arc:
+# - radius is in mm (how wide the curve is)
+# - angle is in degrees (how far around the arc you go)
+# Smaller radius = tighter turn.
+#
+# Sign conventions:
+# - a negative radius curves the other direction (left vs right).
+
+# Drive a curve: radius=200mm, sweep 90 degrees to the right.
 robot.curve(radius=200, angle=90)
 wait(300)
 
-# Drive a curve to the left (negative radius)
+# Drive a curve to the left (negative radius).
 robot.curve(radius=-200, angle=90)
 wait(300)
 

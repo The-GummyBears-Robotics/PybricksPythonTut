@@ -4,6 +4,12 @@ from pybricks.parameters import Port, Direction
 from pybricks.robotics import DriveBase
 from pybricks.tools import wait
 
+# Duplicate drive-square lesson in alternate folder.
+# This version demonstrates:
+# 1) repeated commands
+# 2) loop form
+# 3) function form
+
 hub = PrimeHub()
 
 left_motor  = Motor(Port.A, Direction.COUNTERCLOCKWISE)
@@ -43,6 +49,7 @@ for i in range(4):
 # Drive a square (4 sides × 400mm, turn right 90° each corner), method 3
 
 def drivesquare ():
+    # One side of the square.
     robot.straight(400)
     wait(200)
     robot.turn(90)

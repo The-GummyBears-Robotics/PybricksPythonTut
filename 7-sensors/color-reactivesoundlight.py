@@ -6,7 +6,14 @@ from pybricks.tools import wait
 hub = PrimeHub()
 sensor = ColorSensor(Port.A)
 
-# React differently to each color
+# Color-reactive behavior.
+#
+# Same sensor input, different outputs:
+# - hub LED color
+# - display icon
+# - beep pitch
+#
+# This is a great pattern for “robot reactions” in FLL demos.
 while True:
     detected = sensor.color()
     

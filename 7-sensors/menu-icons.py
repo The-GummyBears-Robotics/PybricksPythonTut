@@ -8,6 +8,13 @@ hub = PrimeHub()
 options = [Icon.HAPPY, Icon.HEART, Icon.STAR, Icon.MUSIC, Icon.CIRCLE]
 current = 0
 
+# Button-based menu pattern.
+#
+# `% len(options)` creates wrap-around:
+# - left from first item goes to last
+# - right from last item goes to first
+# This avoids index errors and feels like a real menu UI.
+
 # Show first option
 hub.display.icon(options[current])
 

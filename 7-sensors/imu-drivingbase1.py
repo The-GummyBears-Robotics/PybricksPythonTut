@@ -9,7 +9,12 @@ left = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right = Motor(Port.B)
 robot = DriveBase(left, right, wheel_diameter=56, axle_track=112)
 
-# Enable gyro for better accuracy
+# Gyro-assisted straight driving.
+#
+# `use_gyro(True)` tells DriveBase to use the IMU heading for better straightness.
+# Usually this improves repeatability vs wheel-only correction.
+
+# Enable gyro for better accuracy.
 robot.use_gyro(True)
 
 hub.display.text("GYRO ON")

@@ -1,4 +1,8 @@
-#Setting the positive direction as counterclockwise¶
+# Setting the positive direction as counterclockwise.
+#
+# This is a "make the code match the robot" trick:
+# if a motor is mounted flipped, you can change its positive direction so that
+# `run(500)` still means "forward" for your mechanism.
 
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port, Direction

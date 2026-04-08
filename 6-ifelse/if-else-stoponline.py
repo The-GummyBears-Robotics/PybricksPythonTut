@@ -24,6 +24,9 @@ hub.light.on(Color.GREEN)
 while True:
     reflection = color_sensor.reflection()
 
+    # Reflection is 0..100-ish: lower = darker, higher = brighter.
+    # This threshold (20) depends on lighting + sensor height + mat.
+    # In practice, teams calibrate this number on their competition table.
     if reflection < 20:  # Black line detected
         # STOP!
         robot.stop()

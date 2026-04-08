@@ -1,6 +1,11 @@
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port
 
+# Resetting the motor angle.
+#
+# `reset_angle(x)` tells Pybricks: "from now on, pretend the motor is at angle x".
+# Teams often reset to 0 at the start of a run so mechanisms have a known reference.
+
 # Initialize a motor on port A.
 example_motor = Motor(Port.A)
 

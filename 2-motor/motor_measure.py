@@ -1,4 +1,11 @@
-# Measuring the angle and speed¶
+# Measuring the motor angle and speed.
+#
+# Two useful sensors built into the motor:
+# - `angle()` in degrees
+# - `speed()` in degrees/second
+#
+# This is helpful for debugging: if the robot isn't moving, is the motor speed 0?
+# If the speed is non-zero but angle isn't changing much, something may be stuck.
 
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port

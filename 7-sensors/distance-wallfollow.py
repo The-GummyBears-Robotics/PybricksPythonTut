@@ -15,7 +15,15 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 # Target distance from wall (200mm)
 target = 200
 
-# Follow wall at constant distance
+# Wall following with proportional steering.
+#
+# `error = distance - target`
+# - positive error: too far from wall
+# - negative error: too close to wall
+#
+# We convert error to a turn rate. Gain (`0.3`) is tunable:
+# - too high: wobbly/oscillating
+# - too low: slow response
 while True:
     distance = distance_sensor.distance()
     

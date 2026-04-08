@@ -15,7 +15,15 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 # Target distance to maintain (300mm)
 target = 300
 
-# Follow an object, keeping constant distance
+# Follow an object, keeping roughly constant distance.
+#
+# This is proportional control (P-control):
+# - `error = measured - target`
+# - speed is proportional to error
+#
+# If far away -> positive error -> drive forward.
+# If too close -> negative error -> drive backward.
+# You may need to clamp speed in real robots to avoid oscillation.
 while True:
     distance = distance_sensor.distance()
     

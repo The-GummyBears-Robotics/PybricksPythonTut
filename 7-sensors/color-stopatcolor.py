@@ -12,7 +12,16 @@ color_sensor = ColorSensor(Port.C)
 
 robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 
-# Drive until red line detected
+# Drive until a target color is detected.
+#
+# This is a simple “event stop” pattern:
+# - start driving
+# - poll sensor quickly in a loop
+# - stop when condition becomes true
+#
+# Tip: if red detection is inconsistent, slow down and keep sensor close to mat.
+
+# Drive until red line detected.
 robot.drive(speed=200, turn_rate=0)
 hub.display.icon(Icon.ARROW_RIGHT)
 

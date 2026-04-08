@@ -12,7 +12,10 @@ distance_sensor = UltrasonicSensor(Port.C)
 
 robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 
-# Drive forward until obstacle within 200mm
+# Drive forward until obstacle is within 200 mm.
+#
+# This is a common mission pattern: move until condition is true.
+# Adjust the threshold for your robot speed and stopping distance.
 robot.drive(speed=200, turn_rate=0)
 hub.display.icon(Icon.ARROW_RIGHT)
 

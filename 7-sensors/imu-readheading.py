@@ -6,6 +6,11 @@ hub = PrimeHub()
 # Reset heading to 0 at start
 hub.imu.reset_heading(0)
 
+# Full compass mapping (8 directions).
+#
+# Each direction gets a 45-degree sector.
+# Example: North is split around 0 degrees, so it wraps:
+#   337.5..360 and 0..22.5
 while True:
     heading = hub.imu.heading()
     

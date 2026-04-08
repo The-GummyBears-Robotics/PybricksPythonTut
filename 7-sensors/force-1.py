@@ -6,6 +6,11 @@ from pybricks.tools import wait
 hub = PrimeHub()
 sensor = ForceSensor(Port.A)
 
+# Force sensor pressed/not-pressed behavior.
+#
+# `sensor.pressed()` is a boolean check.
+# This is useful for bump switches, touch triggers, and “start when pressed”.
+
 hub.display.text("PRESS ME")
 
 while True:

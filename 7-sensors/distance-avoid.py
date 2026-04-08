@@ -12,7 +12,16 @@ distance_sensor = UltrasonicSensor(Port.C)
 
 robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=112)
 
-# Drive and avoid obstacles
+# Obstacle avoidance with an ultrasonic sensor.
+#
+# `distance()` is measured in millimeters.
+# This logic uses a simple threshold:
+# - if object is closer than 300 mm: back up and turn
+# - else: drive forward
+#
+# This is reactive (not planned pathing), but great for first sensor robots.
+
+# Drive and avoid obstacles.
 while True:
     distance = distance_sensor.distance()
     

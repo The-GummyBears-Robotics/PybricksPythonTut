@@ -7,6 +7,12 @@ hub = PrimeHub()
 # Reset heading to 0 (call this "North")
 hub.imu.reset_heading(0)
 
+# Heading-based status indicator.
+#
+# This version uses two ranges:
+# - "North side" (near 0 degrees)
+# - "South side" (around 180 degrees)
+# and changes both display and LED color.
 hub.display.text("COMPASS")
 wait(1000)
 

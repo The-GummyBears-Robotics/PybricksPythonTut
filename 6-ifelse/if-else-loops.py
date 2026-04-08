@@ -5,6 +5,8 @@ from pybricks.tools import wait
 hub = PrimeHub()
 
 while True:
+    # Only one of these branches runs each loop.
+    # The first True condition wins because we use `elif`.
     if Button.LEFT in hub.buttons.pressed():
         hub.display.icon(Icon.ARROW_LEFT)
         hub.speaker.beep(400, 100)
@@ -18,6 +20,7 @@ while True:
         hub.speaker.beep(800, 100)
     
     else:
+        # No buttons pressed.
         hub.display.icon(Icon.PAUSE)
     
     wait(10)

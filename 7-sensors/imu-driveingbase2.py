@@ -11,7 +11,12 @@ robot = DriveBase(left, right, wheel_diameter=56, axle_track=112)
 
 robot.use_gyro(True)
 
-# Reset heading to 0 (this is "North")
+# Turning to target headings.
+#
+# We treat heading 0 as our reference direction ("North"), then rotate to
+# 90/180/270/0. The shortest-path math keeps turns efficient.
+
+# Reset heading to 0 (this is "North").
 hub.imu.reset_heading(0)
 
 hub.display.text("START")
@@ -26,7 +31,7 @@ for target in target_headings:
     # Calculate turn needed
     turn_angle = target - current
 
-    # Adjust for shortest path
+    # Adjust for shortest path (avoid big spins like +270 when -90 is shorter).
     if turn_angle > 180:
         turn_angle = turn_angle - 360
     elif turn_angle < -180:

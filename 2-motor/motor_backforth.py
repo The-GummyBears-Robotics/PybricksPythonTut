@@ -1,4 +1,10 @@
-# Making the motor move back and forth¶
+# Making the motor move back and forth.
+#
+# This is the simplest way to show direction:
+# - positive speed spins one way
+# - negative speed spins the other way
+#
+# Tip: the physical direction depends on how the motor is mounted.
 
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port

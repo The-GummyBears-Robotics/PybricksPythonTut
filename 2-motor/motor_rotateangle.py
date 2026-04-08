@@ -1,4 +1,10 @@
-#Example 2: Rotate by Angle 
+# Example: Rotate by a specific angle.
+#
+# `run_angle(speed, angle_deg)` rotates a RELATIVE amount:
+# - 360 degrees = one full turn
+# - negative angle goes the other way
+#
+# If you need to go to an exact “position”, look for `run_target(...)` examples.
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port, Direction

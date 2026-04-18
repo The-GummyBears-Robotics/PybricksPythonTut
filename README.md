@@ -18,7 +18,8 @@ Pybricks Python tutorial repo for LEGO SPIKE Prime robots, written for kids and 
 - **`5-whileloop/`**: `while` loops and waiting for conditions
 - **`6-ifelse/`**: making decisions with `if / elif / else`
 - **`7-sensors/`**: distance/color/force/IMU examples and simple “menus”
-- **`9-functions/`**: writing your own reusable functions
+- **`9-functions/`**: writing your own reusable functions; **`9-functions/lab/`** has short box-bot follow-ups (~30 min total) tied to [`teaching/functions-intro.html`](teaching/functions-intro.html)
+- **`teaching/`**: optional browser lesson pages (no robot required), for example [`teaching/functions-intro.html`](teaching/functions-intro.html) — walkthrough + simulator that pairs with `9-functions/` for in-class use. Tap the page if the browser blocks demo sounds.
 
 ## How to run a file
 

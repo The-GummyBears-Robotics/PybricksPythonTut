@@ -52,6 +52,7 @@
       --sim-running-bg: #0a0e14;
       --sim-running-border: #3d5366;
       --sim-running-fg: #f6d365;
+      --sim-running-idle-fg: #c5d4e6;
       --log-bg: #0a0e14;
       --log-fg: #a6e3a1;
       --tab-active-bg: #5a7a9e;
@@ -80,8 +81,6 @@
       --robot-screen-stroke: #374151;
       --robot-led-off-fill: #333;
       --robot-led-off-stroke: #555;
-      --robot-wheel-fill: #1a202c;
-      --robot-wheel-stroke: #4a5568;
       --robot-hub-text: #7ad38a;
       --hljs-unparsed: #c9d1d9;
       --skip-fg: #000;
@@ -110,6 +109,7 @@
       --sim-running-bg: #fffbeb;
       --sim-running-border: #fcd34d;
       --sim-running-fg: #92400e;
+      --sim-running-idle-fg: #475569;
       --log-bg: #ecfdf5;
       --log-fg: #14532d;
       --tab-active-bg: #2563eb;
@@ -138,8 +138,6 @@
       --robot-screen-stroke: #94a3b8;
       --robot-led-off-fill: #64748b;
       --robot-led-off-stroke: #94a3b8;
-      --robot-wheel-fill: #334155;
-      --robot-wheel-stroke: #64748b;
       --robot-hub-text: #166534;
       --hljs-unparsed: #24292f;
       --skip-fg: #fff;
@@ -269,7 +267,7 @@
       from { opacity: 1; filter: brightness(1.2); }
       to { opacity: 0.35; filter: brightness(0.6); }
     }
-    #robotWheels { transition: transform 0.25s ease; }
+    #robotBody { transition: transform 0.25s ease; }
     .shake { animation: shake 0.4s ease; }
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -300,7 +298,10 @@
       font-weight: 600;
       color: var(--sim-running-fg);
     }
-    .sim-running.idle { color: var(--muted); font-weight: 500; }
+    .sim-running.idle {
+      color: var(--sim-running-idle-fg);
+      font-weight: 500;
+    }
 
     .sim-demos {
       display: flex;
@@ -410,6 +411,29 @@
     button.demo.secondary {
       background: var(--btn-secondary-bg);
       color: var(--text);
+    }
+
+    /* Global `code` uses a filled “chip”; inside Call buttons that hid names on the blue button. */
+    button.demo code,
+    .sim-tab-list button code {
+      background: transparent !important;
+      border: none !important;
+      padding: 0;
+      color: inherit;
+      font-size: 0.92em;
+      vertical-align: baseline;
+    }
+    .sim-demo legend code {
+      background: transparent;
+      border: none;
+      color: inherit;
+      font-size: 0.95em;
+    }
+    .sim-demo label code {
+      background: transparent;
+      border: none;
+      color: inherit;
+      padding: 0;
     }
 
     .sim-log {
@@ -556,6 +580,10 @@
       font-size: inherit;
       border: none;
     }
+    pre.code-toggle-pre {
+      max-height: min(70vh, 28rem);
+      overflow: auto;
+    }
     pre {
       font-family: var(--mono);
       font-size: 0.82rem;
@@ -696,32 +724,6 @@
       font-weight: 600;
     }
 
-    .resource-box {
-      margin: 0 0 1.25rem;
-      padding: 0.9rem 1.1rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      font-size: 0.95rem;
-      line-height: 1.55;
-    }
-    .resource-box h3 {
-      font-size: 1.05rem;
-      margin: 0 0 0.45rem;
-      color: var(--subheading);
-    }
-    .resource-box ul {
-      margin: 0.35rem 0 0;
-      padding-left: 1.2rem;
-    }
-    .resource-box li { margin: 0.4rem 0; }
-    .resource-box .fine {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin: 0.65rem 0 0;
-      line-height: 1.45;
-    }
-
     .lesson-section {
       margin: 2rem 0;
       scroll-margin-top: 0.75rem;
@@ -783,7 +785,8 @@
       .sim-tab-panel[hidden] {
         display: block !important;
       }
-      pre.demo-code-snippet { max-height: none; }
+      pre.demo-code-snippet,
+      pre.code-toggle-pre { max-height: none; }
       .flip-inner { transform: none !important; }
       .flip-back { position: relative; transform: none; margin-top: 0.35rem; }
       .sim-log { background: #f4f4f4; color: #000; }
@@ -810,65 +813,42 @@
     <section class="lesson-plan" aria-labelledby="plan-h">
       <h2 id="plan-h" class="section">How to use this page in class (~30 min)</h2>
       <p style="margin:0 0 0.5rem;font-size:0.95rem;color:var(--muted)">
-        Times are a guide — spend longer on the simulator if the room needs it, or trim the optional “Extras” block.
+        Times are a guide — spend longer on the simulator if the room needs it, or trim the optional “Extras” block. For firmware, the editor, and running programs on the brick, use the links in the <a href="#page-footer">footer</a> (same as the repo <code>README.md</code>).
       </p>
       <ol class="plan-steps">
         <li><a href="#part-demo"><strong>Part 1 — Simulator</strong></a> (~8 min): each button <em>calls</em> one named recipe; read the code beside each tab.</li>
         <li><a href="#part-prior"><strong>Part 2 — You already do this</strong></a> (~5 min): table of calls you have used in earlier folders.</li>
-        <li><a href="#part-new"><strong>Part 3 — New skill: <code>def</code></strong></a> (~12 min): what a function is, parts of a definition, parameters, <code>return</code>, tiny examples (same organising idea as Pybricks “tasks” in block mode).</li>
+        <li><a href="#part-new"><strong>Part 3 — New skill: <code>def</code></strong></a> (~12 min): what a function is, parts of a definition, parameters, <code>return</code>, tiny examples, and why short names + small chunks beat one giant script.</li>
         <li><a href="#part-check"><strong>Part 4 — Quick check</strong></a> (~3 min): three questions.</li>
-        <li><a href="#extras"><strong>Optional</strong></a>: flip cards + before/after + diagram (if time).</li>
+        <li><a href="#extras"><strong>Optional</strong></a>: flip cards + diagram (if time).</li>
         <li><a href="#after-class"><strong>After class</strong></a> (~30 min on the real bot): pick one or two lab files in <code>9-functions/lab/</code>.</li>
       </ol>
     </section>
-
-    <aside class="resource-box" aria-labelledby="coach-res-h">
-      <h3 id="coach-res-h">Official guides coaches can use</h3>
-      <ul>
-        <li>
-          <a href="https://pybricks.com/learn/flow-basics/tasks-functions/">Pybricks Learn — Making your own task blocks</a> — block “tasks” group steps you reuse; the page explains naming, calling, and why programs stay clearer as they grow (same story as Python <code>def</code>).
-        </li>
-        <li>
-          <a href="https://pybricks.com/learn/">Pybricks Learn — overview</a> and
-          <a href="https://pybricks.com/learn/getting-started/pybricks-environment/">Creating and running Pybricks programs</a> — hub, editor, and how programs are saved and run.
-        </li>
-        <li>
-          <a href="https://education.lego.com/en-us/lessons/spike-python-u7-impacting-the-environment-with-functions/">LEGO Education — SPIKE Prime with Python, Unit 7: Impacting the Environment with Functions</a> — grades 6–8 lessons on creating, calling, and parameterising functions (aligned classroom pacing if you want a second source).
-        </li>
-        <li>
-          <a href="https://education.lego.com/en-us/first-lego-league/">LEGO Education — FIRST LEGO League</a> — program hub for coaches and teams.
-        </li>
-      </ul>
-      <p class="fine">These links are optional for class; they are here so you can align vocabulary with widely used curricula and the official Pybricks wording.</p>
-    </aside>
 
     <section id="part-demo" class="lesson-section" aria-labelledby="demo-h">
       <h2 id="demo-h" class="section"><span class="time-pill">≈8 min</span> Part 1 — Watch “calling a function”</h2>
       <p class="lead-time">Concrete first: the yellow status line always names which pretend function ran.</p>
       <div class="callout sim" role="note">
         <strong>Pretend hub only:</strong> runs in the browser. Your SPIKE Prime uses the same <em>idea</em> in Pybricks — press <strong>Call</strong> and a named recipe runs. Real code is printed beside each demo tab.
+        <span style="display:block;margin-top:0.5rem;font-size:0.95rem;color:var(--muted)">Same rule as Pybricks <strong>Task</strong> blocks in the official guide: a definition does <strong>not</strong> run by itself — something in the program must <strong>call</strong> it.</span>
       </div>
 
     <section class="stage-wrap" aria-labelledby="stage-title">
       <h2 id="stage-title"><span class="stage-badge">Simulation</span> Hub stage</h2>
       <p class="sim-fn-intro">
-        Three pretend functions — use the <strong>demo tabs</strong> under the robot to switch. Each tab shows <strong>controls + code</strong> for one demo so the bot stays in view.
-        <span class="sim-fn-legend"><code>celebrate()</code> → <code>fun-base.py</code> · <code>blink_times(n)</code> → <code>fun-blink-pattern.py</code> · <code>too_close(…)</code> → <code>fun-distance-threshold.py</code></span>
+        Two pretend functions — use the <strong>demo tabs</strong> under the robot to switch. Each tab shows <strong>controls + code</strong> for one demo so the bot stays in view.
+        <span class="sim-fn-legend"><code>celebrate()</code> → <code>fun-base.py</code> · <code>blink_times(n)</code> → <code>fun-blink-pattern.py</code></span>
       </p>
 
       <p id="simRunning" class="sim-running idle" role="status" aria-live="polite">Idle — pick a demo tab under the robot, then press Call.</p>
 
       <div class="robot-svg-wrap">
-        <svg id="robot" width="320" height="200" viewBox="0 0 320 200" aria-hidden="true">
+        <svg id="robot" width="280" height="145" viewBox="38 68 206 96" aria-hidden="true">
           <g id="robotBody">
             <rect x="40" y="70" width="200" height="90" rx="12" fill="var(--robot-chassis)" stroke="var(--robot-chassis-stroke)" stroke-width="3" />
             <rect x="55" y="85" width="120" height="44" rx="6" fill="var(--robot-screen-bg)" stroke="var(--robot-screen-stroke)" stroke-width="2" />
             <text id="hubScreenText" class="hub-screen" x="64" y="112"></text>
             <circle class="hub-led" id="hubLed" cx="200" cy="107" r="14" fill="var(--robot-led-off-fill)" stroke="var(--robot-led-off-stroke)" stroke-width="2" />
-            <g id="robotWheels">
-              <rect x="20" y="130" width="28" height="50" rx="8" fill="var(--robot-wheel-fill)" stroke="var(--robot-wheel-stroke)" stroke-width="2" />
-              <rect x="252" y="130" width="28" height="50" rx="8" fill="var(--robot-wheel-fill)" stroke="var(--robot-wheel-stroke)" stroke-width="2" />
-            </g>
           </g>
         </svg>
       </div>
@@ -877,7 +857,6 @@
         <div class="sim-tab-list" role="tablist">
           <button type="button" role="tab" id="simTab1" aria-controls="simPanel1" aria-selected="true"><code>celebrate()</code></button>
           <button type="button" role="tab" id="simTab2" aria-controls="simPanel2" aria-selected="false" tabindex="-1"><code>blink_times(n)</code></button>
-          <button type="button" role="tab" id="simTab3" aria-controls="simPanel3" aria-selected="false" tabindex="-1"><code>too_close(…)</code></button>
         </div>
 
         <div id="simPanel1" class="sim-tab-panel" role="tabpanel" aria-labelledby="simTab1">
@@ -929,7 +908,7 @@ celebrate()  # Call it again!</code></pre>
                 <div class="row">
                   <label for="blinkN"><code>n</code> =</label>
                   <input type="number" id="blinkN" min="1" max="8" value="3" aria-label="n for blink_times" />
-                  <button type="button" class="demo secondary" id="btnBlink">Call <code>blink_times(n)</code></button>
+                  <button type="button" class="demo" id="btnBlink">Call <code>blink_times(n)</code></button>
                 </div>
               </fieldset>
               <figure class="sim-demo-code">
@@ -966,64 +945,12 @@ blink_times(5, ms_on=200, ms_off=200)</code></pre>
           </div>
         </div>
 
-        <div id="simPanel3" class="sim-tab-panel" role="tabpanel" aria-labelledby="simTab3" hidden>
-          <div class="sim-demos" aria-label="Too close demo">
-            <div class="sim-demo-row">
-              <fieldset class="sim-demo">
-                <legend><code>too_close(distance_mm)</code></legend>
-                <p>
-                  Slider = fake <code>distance_mm</code>, threshold <strong>300</strong> (same idea as
-                  <code>8-sensors/distance-avoid.py</code>).
-                </p>
-                <div class="row">
-                  <label for="distMm">Fake <code>distance_mm</code>: <span id="distVal">250</span></label>
-                </div>
-                <div class="row">
-                  <input type="range" id="distMm" min="50" max="800" value="250" aria-valuetext="250 millimeters" />
-                  <button type="button" class="demo secondary" id="btnTooClose">Call <code>too_close(distance_mm)</code></button>
-                </div>
-              </fieldset>
-              <figure class="sim-demo-code">
-                <figcaption>Hub program — <code class="path">9-functions/fun-distance-threshold.py</code> (full file)</figcaption>
-                <pre class="demo-code-snippet"><code class="language-python"># Same teaching idea as ../teaching/functions-intro.html (too_close slider demo).
-#
-# Pairs with sensor driving examples like ../8-sensors/distance-avoid.py
-
-from pybricks.hubs import PrimeHub
-from pybricks.pupdevices import UltrasonicSensor
-from pybricks.parameters import Port
-from pybricks.tools import wait
-
-hub = PrimeHub()
-sensor = UltrasonicSensor(Port.A)
-
-
-def too_close(distance_mm, threshold_mm=300):
-    """Return True if an obstacle is closer than threshold (millimeters)."""
-    return distance_mm &lt; threshold_mm
-
-
-def path_clear(distance_mm, threshold_mm=300):
-    """Return True if there is enough space (inverse of too_close)."""
-    return distance_mm &gt;= threshold_mm
-
-
-# Try it with live readings
-while True:
-    d = sensor.distance()
-    close = too_close(d)
-    hub.display.text("CLOSE" if close else "OK")
-    wait(200)</code></pre>
-              </figure>
-            </div>
-          </div>
-        </div>
       </nav>
 
       <p class="sim-fn-intro" style="margin-top:0.5rem;font-size:0.9rem">
         <strong>Sound:</strong> browsers may suspend audio after a while or until you interact. Tap <strong>Call</strong> or anywhere on the page; each tap re-enables sound. If it is still silent, switch browser tabs away and back once.
       </p>
-      <div class="sim-log" id="simLog" aria-live="polite">Ready — log shows which pretend function ran (celebrate, blink_times, or too_close).</div>
+      <div class="sim-log" id="simLog" aria-live="polite">Ready — log shows which pretend function ran (celebrate or blink_times).</div>
     </section>
     </section>
 
@@ -1035,7 +962,10 @@ while True:
         Someone else wrote those recipes; your job in lesson 9 is to write <strong>your own</strong> recipes with <code>def</code>.
       </p>
       <p style="font-size:0.95rem;color:var(--muted);margin:0.5rem 0 0;line-height:1.5">
-        FIRST LEGO League teams hit the same wall: long programs get hard to debug. Grouping behaviour under clear names is how coaches usually ask students to split missions — whether the program is blocks or Python.
+        Calls with a <strong>dot</strong>, like <code>hub.light.on(...)</code>, are <strong>methods</strong> — functions tied to an object (<code>hub</code>, a motor, a sensor). You still read them as “name, parentheses, maybe values,” just with the object written first.
+      </p>
+      <p style="font-size:0.95rem;color:var(--muted);margin:0.5rem 0 0;line-height:1.5">
+        When a program gets long, it gets hard to fix. Splitting the robot’s job into <strong>named behaviours</strong> you can read from top to bottom is the same trick in block coding or in Python — you are about to learn the Python side with <code>def</code>.
       </p>
       <table class="prior">
         <thead>
@@ -1065,7 +995,7 @@ while True:
         </tbody>
       </table>
       <p style="font-size:0.95rem;color:var(--subheading)">
-        <strong>Link back to Part 1:</strong> the simulator only pretends <code>celebrate()</code>, <code>blink_times(n)</code>, and <code>too_close(distance_mm)</code> — same “call by name” move you have used all along.
+        <strong>Link back to Part 1:</strong> the simulator only pretends <code>celebrate()</code> and <code>blink_times(n)</code> — same “call by name” move you have used all along.
       </p>
     </section>
 
@@ -1078,16 +1008,26 @@ while True:
         A <strong>function</strong> is a <strong>reusable block of code with a name</strong>. You write the steps once, then run them again by <strong>calling</strong> that name — instead of copying and pasting the same instructions everywhere.
       </p>
       <p style="margin:0 0 0.75rem;font-size:0.95rem;line-height:1.55;color:var(--muted)">
-        If you have seen Pybricks <strong>block</strong> programs, their <strong>Task</strong> blocks bundle several actions into one named chunk you call from the main program — very close to “My Blocks” in other LEGO apps. In text Python, <code>def</code> is how you build that same kind of chunk. Pybricks describes the idea here:
-        <a href="https://pybricks.com/learn/flow-basics/tasks-functions/">Making your own task blocks</a>.
+        If you have used <strong>block</strong> coding, a <strong>Task</strong> (or “My Block”) bundles several actions under one short name — and <strong>nothing inside runs until the main program calls that name</strong>. Text Python matches that: <code>def</code> <em>stores</em> the recipe (the indented block); <strong>calls</strong> elsewhere in the file <em>choose when</em> it runs. In blocks you might pick an <strong>icon</strong> so the task is easy to spot; in Python the readable <strong>function name</strong> plays that role — pick <strong>short names that say what happens</strong> (<code>blink_party</code>, not <code>bp</code>). Keep each chunk <strong>small enough to explain in one breath</strong>, and add a <strong>docstring</strong> (<code>"""…"""</code>) or comments so a teammate can read the plan at a glance.
       </p>
 
       <div class="lesson-compare" role="group" aria-label="With or without functions">
         <div class="lesson-compare-bad"><strong>Without functions:</strong> copy-paste the same code in many places. When you change one detail, you hunt for every copy.</div>
         <div class="lesson-compare-good"><strong>With functions:</strong> write the recipe once, give it a clear name, call it whenever you need it.</div>
       </div>
-      <p style="margin:0 0 1rem;font-size:0.95rem;color:var(--subheading)">
-        In Pybricks, functions help you organise robot behaviours — each movement, sensor check, or hub action can live in its own named block.
+
+      <h3 class="section" style="margin-top:1rem;font-size:1.05rem">Before / after: copy-paste mess vs one function</h3>
+      <p style="font-size:0.95rem;line-height:1.5;margin:0 0 0.65rem">
+        Imagine the same short <strong>welcome flash</strong> on the hub — a beep and a green LED — whenever the day calls for it: <strong>judges enter</strong>, <strong>driver practice</strong>, <strong>match reset</strong>, <strong>finals</strong>, <strong>trophy photo</strong>. If you <strong>copy-paste</strong> the same lines every time, the file grows fast — and when you change the beep length or LED timing, you must hunt <strong>every</strong> twin block. Toggle to see the same story with one <code>def</code> and many short calls (same spirit as <code>1-hub/</code> light + sound, just grouped).
+      </p>
+      <div class="toggle-row">
+        <button type="button" class="on" id="viewBefore" aria-pressed="true">Before (copy-paste)</button>
+        <button type="button" id="viewAfter" aria-pressed="false">After (function)</button>
+      </div>
+      <pre id="codeToggle" class="code-toggle-pre" tabindex="0"><code id="codeToggleCode" class="language-python"></code></pre>
+
+      <p style="margin:1rem 0 1rem;font-size:0.95rem;color:var(--subheading)">
+        Each movement, sensor check, or hub habit can live in its own named chunk — then your main program reads like a checklist of robot moves instead of one wall of code.
       </p>
 
       <h3>Starter <code>celebrate()</code> (minimal version)</h3>
@@ -1175,19 +1115,51 @@ celebrate()  # Call it again!</code></pre>
       <p style="font-size:0.92rem;color:var(--muted);margin:0 0 1rem">
         Functions also help you keep programs <strong>cleaner</strong>, easier to debug, and easier to change later — especially when the robot must do the same behaviour in more than one place.
       </p>
+      <p style="font-size:0.92rem;color:var(--muted);margin:0 0 1rem;line-height:1.55">
+        <strong>Order of execution:</strong> when Python reaches a line like <code>celebrate()</code>, it runs the <em>whole</em> function body, then comes back and continues with the <em>next</em> line after the call. So setup code above still runs first; lines below wait their turn — same “print before → call → print after” rhythm many function tutorials use on paper.
+      </p>
 
       <h3>Parameters (inputs in parentheses)</h3>
-      <p>Values you pass in are <strong>arguments</strong>; the names in the <code>def</code> line are <strong>parameters</strong>. Same idea as <code>blink_times(n)</code> on the simulator and <code>beep_times(count, frequency)</code> in <code>9-functions/fun-inputs.py</code>. Hub LEDs: <code>9-functions/fun-blink-pattern.py</code>.</p>
+      <p>Values you pass in are <strong>arguments</strong>; the names in the <code>def</code> line are <strong>parameters</strong>. Those parameter names are <strong>local</strong>: they only mean something <em>inside</em> that function while it runs (like scratch paper that disappears when the function finishes). Same idea as <code>blink_times(n)</code> on the simulator and <code>beep_times(count, frequency)</code> in <code>9-functions/fun-inputs.py</code>. Hub LEDs: <code>9-functions/fun-blink-pattern.py</code>.</p>
 
       <h3><code>return</code> (hand a value back)</h3>
-      <p>The caller can use the result in an <code>if</code> or save it in a variable — like <code>too_close(...)</code> in Part 1 and <code>8-sensors/distance-avoid.py</code>. More examples: <code>9-functions/fun-returns.py</code>, <code>9-functions/fun-sensor.py</code>, <code>9-functions/fun-distance-threshold.py</code>.</p>
+      <p>The caller can use the result in an <code>if</code> or save it in a variable — like <code>too_close(...)</code> in <code>8-sensors/distance-avoid.py</code>. More examples: <code>9-functions/fun-returns.py</code>, <code>9-functions/fun-sensor.py</code>, <code>9-functions/fun-distance-threshold.py</code>.</p>
+
+      <details class="extras-block" style="margin-top:0.75rem;border-style:dashed">
+        <summary>Extra (optional): math class ↔ <code>return</code></summary>
+        <p style="margin:0.5rem 0 0;font-size:0.95rem;line-height:1.55">
+          In algebra you might write <em>f</em>(3) and get a number out. Python’s <code>return</code> is the same idea: the function <strong>hands a value back</strong> to the expression that called it. Example: <code>def square(x): return x * x</code> then <code>square(3)</code> produces <code>9</code> for the rest of the line to use.
+        </p>
+      </details>
+      <details class="extras-block" style="margin-top:0.5rem;border-style:dashed">
+        <summary>Extra (optional): how many parameters is “just right”?</summary>
+        <p style="margin:0.5rem 0 0;font-size:0.95rem;line-height:1.55">
+          Imagine turns: a block that <em>only</em> does “90°” is quick to use, but you end up duplicating tasks for 45°, 30°, … A single <code>turn_degrees(angle, speed)</code>-style function covers many cases with one recipe. Loading every rare option (coast, brake, timeout, …) into one giant header can be harder to read than it’s worth — aim for <strong>enough</strong> inputs to reuse the code, not every knob in the universe.
+        </p>
+      </details>
+      <details class="extras-block" style="margin-top:0.5rem;border-style:dashed">
+        <summary>Extra (optional): scope — why a name can “disappear”</summary>
+        <p style="margin:0.5rem 0 0.65rem;font-size:0.95rem;line-height:1.55">
+          Variables defined <strong>outside</strong> a function are <strong>global</strong> (visible in many places). Parameters and names you assign <strong>inside</strong> the function are <strong>local</strong>. After the call ends, a parameter like <code>x</code> is not a legal name in the outer program — using it there causes a <code>NameError</code>.
+        </p>
+        <pre style="font-size:0.78rem;margin:0"><code class="language-python">y = 7
+
+def f(x):
+    print(x)   # 4 — the argument copied into x
+    print(y)   # 7 — global y is still visible here
+
+f(4)
+print(y)       # 7
+# print(x)     # NameError: x only existed inside f()</code></pre>
+      </details>
 
       <h3>On the real hub after class</h3>
       <p>Open these in Pybricks Code when you move from the browser to the brick: <code>9-functions/fun-base.py</code>, <code>fun-inputs.py</code>, <code>fun-returns.py</code>, <code>fun-sensor.py</code>.</p>
 
-      <h3>Quick tips (keep these five in mind first)</h3>
+      <h3>Quick tips (keep these six in mind first)</h3>
       <ol class="tips-ol">
         <li><strong>Descriptive names</strong> — <code>drive_square()</code> beats <code>ds()</code>.</li>
+        <li><strong>Naming style</strong> — Pybricks samples usually use <strong>snake_case</strong> (<code>turn_degrees</code>). Some lessons use <strong>camelCase</strong> (<code>turnDegrees</code>). Either can work; stay consistent in one file.</li>
         <li><strong>Docstrings</strong> — <code>"""What this does."""</code> under <code>def</code>.</li>
         <li><strong>Parameters</strong> — one function, many cases.</li>
         <li><strong><code>return</code></strong> — for answers used in <code>if</code> / math.</li>
@@ -1197,9 +1169,13 @@ celebrate()  # Call it again!</code></pre>
         <summary>More tips (if you have time)</summary>
         <ol class="tips-ol" style="margin-bottom:0">
           <li><strong>Smaller functions</strong> — easier to test than one giant file.</li>
-          <li><strong>Composition</strong> — functions calling functions.</li>
+          <li><strong>Composition</strong> — one function can call another (build big behaviour from small pieces).</li>
+          <li><strong>Trace one chunk</strong> — when something breaks, run or <code>print</code> inside <em>one</em> function at a time so you see whether <em>that</em> piece is wrong (same “trace the steps” idea as Pybricks’ square task exercises).</li>
           <li><strong>Helpers</strong> — repeat beeps / LED patterns once.</li>
+          <li><strong>Slow vs fast setups</strong> — two tiny functions can apply different drive settings mid-run (acceleration / speed) without duplicating whole missions.</li>
+          <li><strong>Don’t recurse by accident</strong> — a function that keeps calling itself can exhaust the hub; use a normal loop for “repeat forever” unless a mentor teaches recursion on purpose.</li>
           <li><strong>State machines &amp; DRY</strong> — tidy big drivers; don’t repeat yourself.</li>
+          <li><strong>Built-ins</strong> — Python already ships helpers like <code>abs</code>, <code>max</code>, <code>min</code>, <code>round</code>, <code>len</code> (useful on lists/strings). They are plain calls: <code>max(a, b)</code>, not magic.</li>
         </ol>
       </details>
     </section>
@@ -1241,7 +1217,7 @@ celebrate()  # Call it again!</code></pre>
     </section>
 
     <details id="extras" class="extras-block">
-      <summary>Optional extras — flip cards, before/after, diagram</summary>
+      <summary>Optional extras — flip cards, diagram</summary>
 
       <h3 class="section" style="margin-top:0.75rem;font-size:1.05rem">Tap a card: call → what it means</h3>
       <div class="flip-grid">
@@ -1271,14 +1247,6 @@ celebrate()  # Call it again!</code></pre>
         </div>
       </div>
 
-      <h3 class="section" style="font-size:1.05rem">Before / after: repeating code vs one function</h3>
-      <p style="font-size:0.95rem">Same idea as <code>1-hub/light_onoff.py</code> vs grouping steps into one name (like <code>9-functions/fun-base.py</code>).</p>
-      <div class="toggle-row">
-        <button type="button" class="on" id="viewBefore" aria-pressed="true">Before (repeated)</button>
-        <button type="button" id="viewAfter" aria-pressed="false">After (function)</button>
-      </div>
-      <pre id="codeToggle" tabindex="0"><code id="codeToggleCode" class="language-python"></code></pre>
-
       <h3 class="section" style="font-size:1.05rem">Diagram (text)</h3>
       <pre aria-label="Diagram in text form">
 kidProgram --calls--> libraryFunctions   (Pybricks, wait, sensors…)
@@ -1291,7 +1259,7 @@ yourFunctions --built_from--> libraryFunctions
       <h2 id="lab-h" class="section"><span class="time-pill">≈30 min</span> After class — box bot (two wheels + hub)</h2>
       <p class="lead-time">
         Assume a simple SPIKE “box” drive: left motor <strong>A</strong>, right motor <strong>B</strong>, <code>DriveBase</code> with the same wheel/axle numbers as <code>3-drivebase/drivebase_drivesquare.py</code> (adjust if your build differs).
-        Ultrasonic labs use port <strong>C</strong> like <code>8-sensors/distance-avoid.py</code>. Each file is short — coach can assign one or two in ~30 minutes.
+        Each file is short — coach can assign one or two in ~30 minutes.
       </p>
 
       <div class="lab-card">
@@ -1307,18 +1275,21 @@ yourFunctions --built_from--> libraryFunctions
         <p><strong>Do:</strong> Run the starter file, then edit <code>victory_chirp</code> (different beeps or counts). Add a second drive move and reuse the same function.</p>
       </div>
 
-      <div class="lab-card">
-        <h3>Lab C — <code>9-functions/lab/lab_slow_if_close.py</code></h3>
-        <p><strong>Goal:</strong> A function that <code>return</code>s speed from distance — same lesson idea as Part 1 Demo 3.</p>
-        <p><strong>Do:</strong> Run on a clear floor with a box/wall ahead. Tune the numbers inside <code>cruise_speed</code> so the bot slows smoothly. Explain out loud what <code>return</code> is doing each loop.</p>
-      </div>
-
       <p style="font-size:0.92rem;color:var(--muted)">Files live in <code>9-functions/lab/</code> with top-of-file checklists for students. Run in Pybricks Code on the real hub.</p>
     </section>
   </main>
 
-  <footer>
+  <footer id="page-footer">
     <p>Repo root: <code>README.md</code> for setup. This lesson: <code>teaching/functions-intro.html</code>.</p>
+    <p style="margin-top:0.65rem;font-size:0.92rem;line-height:1.5">
+      Official Pybricks (same links as <code>README.md</code>):
+      <a href="https://pybricks.com/learn/getting-started/install-pybricks">Installing Pybricks</a>
+      · <a href="https://pybricks.com/learn/getting-started/pybricks-environment">Creating and running programs</a>
+      · <a href="https://code.pybricks.com/">Pybricks Code</a>
+    </p>
+    <p style="margin-top:0.5rem;font-size:0.88rem;line-height:1.45;color:var(--muted, #666)">
+      Other beginner materials you can compare (different stack than Pybricks): <a href="https://primelessons.org/en/PyProgrammingLessons/SP3FunctionsPython.pdf">Prime Lessons — SPIKE 3 Functions (PDF)</a> — CC BY‑NC‑SA. This page uses Pybricks on the hub; it does not rely on SPIKE App 3’s async/runloop style.
+    </p>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
@@ -1383,7 +1354,7 @@ yourFunctions --built_from--> libraryFunctions
   const statusEl = document.getElementById('simRunning');
   const led = document.getElementById('hubLed');
   const screen = document.getElementById('hubScreenText');
-  const wheels = document.getElementById('robotWheels');
+  const robotBody = document.getElementById('robotBody');
 
   const IDLE_STATUS = 'Idle — no function running. Pick a demo tab, then press Call.';
 
@@ -1504,9 +1475,10 @@ yourFunctions --built_from--> libraryFunctions
   }
 
   function wiggle() {
-    wheels.classList.remove('shake');
-    void wheels.offsetWidth;
-    wheels.classList.add('shake');
+    if (!robotBody) return;
+    robotBody.classList.remove('shake');
+    void robotBody.offsetWidth;
+    robotBody.classList.add('shake');
   }
 
   let busy = false;
@@ -1568,51 +1540,10 @@ yourFunctions --built_from--> libraryFunctions
     );
   });
 
-  var distInput = document.getElementById('distMm');
-  var distVal = document.getElementById('distVal');
-  distInput.addEventListener('input', function () {
-    distVal.textContent = distInput.value;
-    distInput.setAttribute('aria-valuetext', distInput.value + ' millimeters');
-  });
-
-  document.getElementById('btnTooClose').addEventListener('click', function () {
-    var mm = parseInt(distInput.value, 10);
-    var thr = 300;
-    var result = mm < thr;
-    var idleDone = 'Idle — last finished: too_close(' + mm + ') returned ' + result + '.';
-    withBusy(
-      'Running: too_close(' + mm + ') — comparing to threshold ' + thr + ' mm.',
-      idleDone,
-      async function () {
-        log(
-          'Function: too_close(distance_mm, threshold_mm=300)\n>>> too_close(' +
-            mm +
-            ')\n→ ' +
-            result +
-            '  (True means closer than ' +
-            thr +
-            ' mm)'
-        );
-        setScreen(String(result));
-        setLed(result ? 'red' : 'green', false);
-        wiggle();
-        if (result) await beep(300, 80);
-        else await beep(880, 80);
-        await sleep(50);
-        log(
-          'Function: too_close(distance_mm, threshold_mm=300)\n<<< returned ' +
-            result +
-            '  (Python would use this in an if)'
-        );
-      }
-    );
-  });
-
   /* Simulation demo tabs */
   var simTabSpecs = [
     { btn: document.getElementById('simTab1'), panel: document.getElementById('simPanel1') },
-    { btn: document.getElementById('simTab2'), panel: document.getElementById('simPanel2') },
-    { btn: document.getElementById('simTab3'), panel: document.getElementById('simPanel3') }
+    { btn: document.getElementById('simTab2'), panel: document.getElementById('simPanel2') }
   ];
   function activateSimTab(i) {
     simTabSpecs.forEach(function (t, j) {
@@ -1654,8 +1585,72 @@ yourFunctions --built_from--> libraryFunctions
   });
 
   /* Before / after code */
-  var beforeCode = '# Same lines copied again and again\nfor i in range(3):\n    hub.light.on(Color.RED)\n    wait(500)\n    hub.light.off()\n    wait(300)\n\nfor i in range(3):\n    hub.light.on(Color.RED)\n    wait(500)\n    hub.light.off()\n    wait(300)\n';
-  var afterCode = 'def blink_party():\n    for i in range(3):\n        hub.light.on(Color.RED)\n        wait(500)\n        hub.light.off()\n        wait(300)\n\nblink_party()\nblink_party()\n';
+  var beforeCode =
+    'from pybricks.parameters import Color\n' +
+    'from pybricks.tools import wait\n' +
+    '\n' +
+    '# Pretend hub = PrimeHub() already ran above.\n' +
+    '# Same welcome flash is needed at FIVE different moments in one long file.\n' +
+    '# Each time someone copied the block by hand — notice how huge this gets.\n' +
+    '\n' +
+    '# -- judges arrive --\n' +
+    'hub.speaker.beep(600, 150)\n' +
+    'hub.light.on(Color.GREEN)\n' +
+    'wait(400)\n' +
+    'hub.light.off()\n' +
+    'wait(200)\n' +
+    '\n' +
+    '# -- driver practice --\n' +
+    'hub.speaker.beep(600, 150)\n' +
+    'hub.light.on(Color.GREEN)\n' +
+    'wait(400)\n' +
+    'hub.light.off()\n' +
+    'wait(200)\n' +
+    '\n' +
+    '# -- match reset --\n' +
+    'hub.speaker.beep(600, 150)\n' +
+    'hub.light.on(Color.GREEN)\n' +
+    'wait(400)\n' +
+    'hub.light.off()\n' +
+    'wait(200)\n' +
+    '\n' +
+    '# -- finals --\n' +
+    'hub.speaker.beep(600, 150)\n' +
+    'hub.light.on(Color.GREEN)\n' +
+    'wait(400)\n' +
+    'hub.light.off()\n' +
+    'wait(200)\n' +
+    '\n' +
+    '# -- trophy photo --\n' +
+    'hub.speaker.beep(600, 150)\n' +
+    'hub.light.on(Color.GREEN)\n' +
+    'wait(400)\n' +
+    'hub.light.off()\n' +
+    'wait(200)\n' +
+    '\n' +
+    '# Want a longer beep? You must edit FIVE places and hope you did not miss one.\n';
+
+  var afterCode =
+    'from pybricks.parameters import Color\n' +
+    'from pybricks.tools import wait\n' +
+    '\n' +
+    '# Pretend hub = PrimeHub() already ran above.\n' +
+    '\n' +
+    'def welcome_flash():\n' +
+    '    # Change timing, pitch, or colour ONCE — every call uses the new version.\n' +
+    '    hub.speaker.beep(600, 150)\n' +
+    '    hub.light.on(Color.GREEN)\n' +
+    '    wait(400)\n' +
+    '    hub.light.off()\n' +
+    '    wait(200)\n' +
+    '\n' +
+    '# Same five story beats, but the script reads like a short checklist.\n' +
+    'welcome_flash()   # judges arrive\n' +
+    'wait(800)\n' +
+    'welcome_flash()   # driver practice\n' +
+    'welcome_flash()   # match reset\n' +
+    'welcome_flash()   # finals\n' +
+    'welcome_flash()   # trophy photo\n';
   var codeToggleCode = document.getElementById('codeToggleCode');
   var btnB = document.getElementById('viewBefore');
   var btnA = document.getElementById('viewAfter');

@@ -836,8 +836,8 @@
     <section class="stage-wrap" aria-labelledby="stage-title">
       <h2 id="stage-title"><span class="stage-badge">Simulation</span> Hub stage</h2>
       <p class="sim-fn-intro">
-        Two pretend functions — use the <strong>demo tabs</strong> under the robot to switch. Each tab shows <strong>controls + code</strong> for one demo so the bot stays in view.
-        <span class="sim-fn-legend"><code>celebrate()</code> → <code>fun-base.py</code> · <code>blink_times(n)</code> → <code>fun-blink-pattern.py</code></span>
+        Three pretend functions — use the <strong>demo tabs</strong> under the robot to switch. Each tab shows <strong>controls + code</strong> for one demo so the bot stays in view.
+        <span class="sim-fn-legend"><code>celebrate()</code> → <code>fun-base.py</code> · <code>blink_times(n)</code> → <code>fun-blink-pattern.py</code> · <code>is_close(dist)</code> → <code>fun-returns.py</code></span>
       </p>
 
       <p id="simRunning" class="sim-running idle" role="status" aria-live="polite">Idle — pick a demo tab under the robot, then press Call.</p>
@@ -857,6 +857,7 @@
         <div class="sim-tab-list" role="tablist">
           <button type="button" role="tab" id="simTab1" aria-controls="simPanel1" aria-selected="true"><code>celebrate()</code></button>
           <button type="button" role="tab" id="simTab2" aria-controls="simPanel2" aria-selected="false" tabindex="-1"><code>blink_times(n)</code></button>
+          <button type="button" role="tab" id="simTab3" aria-controls="simPanel3" aria-selected="false" tabindex="-1"><code>is_close(dist)</code></button>
         </div>
 
         <div id="simPanel1" class="sim-tab-panel" role="tabpanel" aria-labelledby="simTab1">
@@ -940,6 +941,43 @@ def blink_times(n, ms_on=500, ms_off=300):
 blink_times(3)
 wait(500)
 blink_times(5, ms_on=200, ms_off=200)</code></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div id="simPanel3" class="sim-tab-panel" role="tabpanel" aria-labelledby="simTab3" hidden>
+          <div class="sim-demos" aria-label="is_close return demo">
+            <div class="sim-demo-row">
+              <fieldset class="sim-demo">
+                <legend><code>is_close(dist)</code></legend>
+                <p>Set a distance, call the function — it <strong>returns</strong> <code>True</code> or <code>False</code>. Watch the hub screen and LED change color.</p>
+                <div class="row">
+                  <label for="isCloseDist"><code>dist</code> =</label>
+                  <input type="number" id="isCloseDist" min="0" max="500" value="150" aria-label="dist for is_close" />
+                  <span style="font-size:0.88rem;color:var(--muted)">mm</span>
+                  <button type="button" class="demo" id="btnIsClose">Call <code>is_close(dist)</code></button>
+                </div>
+                <p style="margin-top:0.45rem;font-size:0.85rem;color:var(--muted)">Try <strong>150</strong> (close → red LED, <code>True</code>) and <strong>300</strong> (far → green LED, <code>False</code>).</p>
+              </fieldset>
+              <figure class="sim-demo-code">
+                <figcaption>Hub program — <code class="path">9-functions/fun-returns.py</code> (excerpt)</figcaption>
+                <pre class="demo-code-snippet"><code class="language-python">from pybricks.hubs import PrimeHub
+from pybricks.parameters import Color
+from pybricks.tools import wait
+
+hub = PrimeHub()
+
+def is_close(dist):
+    """Return True if dist is under 200 mm."""
+    return dist < 200
+
+# The caller uses the returned value in an if-statement.
+reading = 150   # pretend sensor said 150 mm
+if is_close(reading):
+    hub.light.on(Color.RED)    # too close — red warning
+else:
+    hub.light.on(Color.GREEN)  # safe distance — green</code></pre>
               </figure>
             </div>
           </div>
@@ -1213,6 +1251,15 @@ print(y)       # 7
         <button type="button" class="check">Check</button>
         <div class="feedback" role="status"></div>
       </fieldset>
+
+      <fieldset data-quiz="4">
+        <legend>4. You call <code>blink_times(5)</code>. Inside the function <code>def blink_times(n):</code>, what does <code>n</code> equal?</legend>
+        <label><input type="radio" name="q4" value="a" /> The function's name — <code>"blink_times"</code>.</label>
+        <label><input type="radio" name="q4" value="b" /> 5 — the value the caller passed in.</label>
+        <label><input type="radio" name="q4" value="c" /> Nothing — <code>n</code> is empty until you set it yourself.</label>
+        <button type="button" class="check">Check</button>
+        <div class="feedback" role="status"></div>
+      </fieldset>
     </section>
     </section>
 
@@ -1269,10 +1316,11 @@ yourFunctions --built_from--> libraryFunctions
         <p><strong>Stretch:</strong> Add a parameter <code>edge_mm</code> to <code>one_side</code> so callers can pick square size.</p>
       </div>
 
-      <div class="lab-card">
+      <div class=”lab-card”>
         <h3>Lab B — <code>9-functions/lab/lab_victory_chirp.py</code></h3>
         <p><strong>Goal:</strong> Keep “noisy celebration” in one helper so the drive code stays readable.</p>
-        <p><strong>Do:</strong> Run the starter file, then edit <code>victory_chirp</code> (different beeps or counts). Add a second drive move and reuse the same function.</p>
+        <p><strong>Do:</strong> Run the starter file, then edit <code>victory_chirp()</code> (different frequencies or add a third beep). Add a third robot move and reuse the same function after it.</p>
+        <p><strong>Stretch:</strong> Write a second helper <code>victory_light()</code> that flashes the hub LED, then call both helpers together.</p>
       </div>
 
       <p style="font-size:0.92rem;color:var(--muted)">Files live in <code>9-functions/lab/</code> with top-of-file checklists for students. Run in Pybricks Code on the real hub.</p>
@@ -1540,10 +1588,37 @@ yourFunctions --built_from--> libraryFunctions
     );
   });
 
+  document.getElementById('btnIsClose').addEventListener('click', function () {
+    var dist = parseInt(document.getElementById('isCloseDist').value, 10);
+    if (isNaN(dist) || dist < 0) dist = 0;
+    if (dist > 500) dist = 500;
+    document.getElementById('isCloseDist').value = dist;
+    var result = dist < 200;
+    withBusy(
+      'Running: is_close(' + dist + ') — checking if ' + dist + ' mm is close.',
+      'Idle — last finished: is_close(' + dist + ') → ' + result + '.',
+      async function () {
+        log('Function: is_close(dist)\n>>> is_close(' + dist + ')\n<<< returned ' + result);
+        setScreen(result ? 'True' : 'False');
+        setLed(result ? 'red' : 'green', false);
+        if (result) {
+          wiggle();
+          await beep(330, 180);
+        } else {
+          await beep(660, 120);
+        }
+        await sleep(900);
+        setLed('off');
+        setScreen('');
+      }
+    );
+  });
+
   /* Simulation demo tabs */
   var simTabSpecs = [
     { btn: document.getElementById('simTab1'), panel: document.getElementById('simPanel1') },
-    { btn: document.getElementById('simTab2'), panel: document.getElementById('simPanel2') }
+    { btn: document.getElementById('simTab2'), panel: document.getElementById('simPanel2') },
+    { btn: document.getElementById('simTab3'), panel: document.getElementById('simPanel3') }
   ];
   function activateSimTab(i) {
     simTabSpecs.forEach(function (t, j) {
@@ -1675,7 +1750,8 @@ yourFunctions --built_from--> libraryFunctions
   var answers = {
     1: { ok: 'b', msg: { a: 'Not quite: def starts a new recipe.', b: 'Yes. That line calls a hub function.', c: 'Comments are not calls.' } },
     2: { ok: 'b', msg: { a: 'Variables do not use this pattern.', b: 'Right. name(...) is usually a call.', c: 'Comments use #.' } },
-    3: { ok: 'b', msg: { a: 'return ends the function, not the whole robot.', b: 'Correct. Callers can use the returned value.', c: 'Printing uses print(...).' } }
+    3: { ok: 'b', msg: { a: 'return ends the function, not the whole robot.', b: 'Correct. Callers can use the returned value.', c: 'Printing uses print(...).' } },
+    4: { ok: 'b', msg: { a: 'The name is in the def line, not the call.', b: 'Yes! The argument 5 is copied into n.', c: 'Python fills n with the argument automatically.' } }
   };
   document.querySelectorAll('.quiz fieldset').forEach(function (fs) {
     var id = fs.getAttribute('data-quiz');

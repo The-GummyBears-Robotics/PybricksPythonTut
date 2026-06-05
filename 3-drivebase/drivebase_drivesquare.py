@@ -52,9 +52,11 @@ for i in range(4):
     wait(200)
     
 # Drive a square (4 sides × 400mm, turn right 90° each corner), method 3
-# Note: this function is unfinished in the original file, so the script as-is
-# will not run unless you complete the function body (example: add the loop above).
-# For a first version, you can put the method 2 loop inside the function, then call it.
+def drive_square(side_length=400, turn_angle=90):
+    for i in range(4):
+        robot.straight(side_length)
+        wait(200)
+        robot.turn(turn_angle)
+        wait(200)
 
-def drivesquare ():
-        
+drive_square()

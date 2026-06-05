@@ -10,15 +10,15 @@ Pybricks Python tutorial repo for LEGO SPIKE Prime robots, written for kids and 
 
 ## Repo map (what each folder teaches)
 
-- **`1-hub/`**: hub LED, display, buttons, and sounds
-- **`2-motor/`**: controlling one or more motors (speed, angle, time, stall)
-- **`3-drivebase/`**: using `DriveBase` to drive straight/turn/curve repeatably
+- **`1-hub/`**: hub LED, display, buttons, and sounds. Start with [`1-hub/README.md`](1-hub/README.md).
+- **`2-motor/`**: controlling one or more motors (speed, angle, time, stall). Start with [`2-motor/README.md`](2-motor/README.md).
+- **`3-drivebase/`**: using `DriveBase` to drive straight/turn/curve repeatably. Start with [`3-drivebase/README.md`](3-drivebase/README.md).
 - **`drivebase/`**: extra drivebase example(s) (may overlap with `3-drivebase/`)
 - **`4-forloop/`**: `for` loops and lists
 - **`5-whileloop/`**: `while` loops and waiting for conditions
 - **`6-ifelse/`**: making decisions with `if / elif / else`
-- **`7-sensors/`**: distance/color/force/IMU examples and simple “menus”
-- **`9-functions/`**: writing your own reusable functions
+- **`7-sensors/`**: distance/color/force/IMU examples and simple “menus”. Start with [`7-sensors/README.md`](7-sensors/README.md).
+- **`9-functions/`**: writing your own reusable functions. Start with [`9-functions/README.md`](9-functions/README.md).
 
 ## How to run a file
 
